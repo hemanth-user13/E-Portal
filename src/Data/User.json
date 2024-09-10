@@ -20,6 +20,15 @@
       "mobile": "09652594864",
       "password": "test@123",
       "confirmPassword": "test@123"
+    },
+    {
+      "id": "8c36",
+      "firstName": "vikas",
+      "lastName": "vikas",
+      "email": "vikas@gmail.com",
+      "mobile": "27293723239",
+      "password": "vikas@123",
+      "confirmPassword": "vikas@123"
     }
   ],
   "userpost": [

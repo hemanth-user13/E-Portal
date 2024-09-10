@@ -17,6 +17,7 @@ const PostForm: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userPosts, setUserPosts] = useState<Post[]>([]); // State for storing user's posts
   const userId = localStorage.getItem("user_id"); // Get the userId from localStorage
+  const userName = localStorage.getItem("firstName");
 
   // Function to handle opening the modal
   const handleAddPostClick = () => {
@@ -66,7 +67,7 @@ const PostForm: React.FC = () => {
     try {
       const response = await axios.get("http://localhost:8001/userpost"); // Fetch all posts
       const filteredPosts = response.data.filter(
-        (post: Post) => post.userId === userId
+        (post: Post) => post.firstName === userName
       ); // Filter posts by userId
       setUserPosts(filteredPosts); // Set filtered posts to state
     } catch (error) {
