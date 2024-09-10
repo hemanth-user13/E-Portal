@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Newsbody = styled.div`
   @media screen and (min-width: 1500px) {
@@ -115,7 +115,6 @@ const employees = [
   },
 ];
 
-
 const Activity = [
   {
     id: 1,
@@ -194,36 +193,35 @@ const Activity = [
   },
 ];
 
+const employeeCount = employees.length;
+console.log(employeeCount);
 
-const employeeCount = employees.length
-console.log(employeeCount)
-
-
-const LatestActivity=Activity.map((items,index)=>(
+const LatestActivity = Activity.map((items, index) => (
   <div key={index}>
     <p>{items.activityname}</p>
   </div>
-))
-
+));
 
 const News = () => {
   return (
     <Newsbody>
       <div className="w-full sm:w-64 h-full sm:h-[715px] bg-gradient-to-r from-slate-200 via-slate-300 to-slate-200 sm:rounded-r-lg shadow-lg absolute left-0 p-6 flex flex-col items-center justify-center sm:justify-start">
-        <h3 className="text-3xl sm:text-2xl text-gray-800 font-bold mb-4">Latest News</h3>
+        <h3 className="text-3xl sm:text-2xl text-gray-800 font-bold mb-4">
+          Latest News
+        </h3>
         <p className="text-gray-700 text-lg sm:text-base text-center sm:absolute sm:top-24">
           Employee Count<strong>&nbsp;&nbsp;{employeeCount}</strong>
         </p>
-        <div className='mt-20 ml-8'>
+        <div className="mt-20 ml-8">
           <p className="">
             newly joined employees<strong>&nbsp;&nbsp;Test</strong>
-          </p><br></br>
+          </p>
+          <br></br>
           <p className="">
             Employee of the month<strong>&nbsp;&nbsp;Test</strong>
-          </p><br></br>
-          <p className="">
-           Latest Weekly Fun Activity: {LatestActivity}
           </p>
+          <br></br>
+          <p className="">Latest Weekly Fun Activity: {LatestActivity}</p>
         </div>
       </div>
     </Newsbody>

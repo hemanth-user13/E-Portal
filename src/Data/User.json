@@ -1,0 +1,46 @@
+{
+  "userregister": [
+    {
+      "id": "35f1"
+    },
+    {
+      "id": "0a19",
+      "firstName": "Bolgum",
+      "lastName": "Hemanth Goud",
+      "email": "bhemanthgoud7878@gmail.com",
+      "mobile": "09652594864",
+      "password": "test@123",
+      "confirmPassword": "test@123"
+    },
+    {
+      "id": "424e",
+      "firstName": "Bolgum",
+      "lastName": "Hemanth Goud",
+      "email": "bhemanthgoud7878@gmail.com",
+      "mobile": "09652594864",
+      "password": "test@123",
+      "confirmPassword": "test@123"
+    }
+  ],
+  "userpost": [
+    {
+      "id": "c006"
+    },
+    {
+      "id": "2eb1",
+      "postTitle": "test",
+      "createdDate": "2024-09-10",
+      "description": "test",
+      "firstName": "Bolgum",
+      "userId": "cc1ccbbee13d4b8f715a4b228c4a222b"
+    },
+    {
+      "id": "e228",
+      "postTitle": "test2",
+      "createdDate": "2024-09-10",
+      "description": "test2\n",
+      "firstName": "Bolgum",
+      "userId": "cc1ccbbee13d4b8f715a4b228c4a222b"
+    }
+  ]
+}

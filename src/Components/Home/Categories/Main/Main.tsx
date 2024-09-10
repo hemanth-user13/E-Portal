@@ -1,59 +1,125 @@
-import { useState } from 'react';
-import Card from '../../../Helpers/Cards';
-// import Posts from '../Posts/Posts';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
+import Card from "../../../Helpers/Cards";
 
 const Main = () => {
-
-  const cardData = [
-    { Cardname: 'Account', CardDetails: 'View and manage your account.', CardButtonName: 'Go to account' },
-    { Cardname: 'Tax', CardDetails: 'View Tax related Documents', CardButtonName: 'View Reports' },
-    { Cardname: 'Attendance', CardDetails: 'View Your Attendance', CardButtonName: 'Check your Attendance' },
-    { Cardname: 'Review', CardDetails: 'Review Your Records', CardButtonName: 'Check the Records' },
-    { Cardname: 'Post', CardDetails: 'Check the recent posts', CardButtonName: 'See posts' },
-    { Cardname: 'Projects', CardDetails: 'Check the project status', CardButtonName: 'Check status' },
-    { Cardname: 'Hemanth', CardDetails: 'Check the recent posts', CardButtonName: 'See posts' },
-    { Cardname: 'Projects', CardDetails: 'Check the project status', CardButtonName: 'Check status' },
-  ];
-
-  const [visibleCards, setVisibleCards] = useState(6); 
+  const [visibleCards, setVisibleCards] = useState(6);
+  const navigate = useNavigate();
 
   const showMoreCards = () => {
-    setVisibleCards(cardData.length);
+    setVisibleCards(8);
+  };
+
+  const handleCardClick = (route: string, openInNewTab: boolean) => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true"; // Check login status from localStorage
+
+    if (isLoggedIn) {
+      if (openInNewTab) {
+        window.open(route, "_blank"); // Open in new tab
+      } else {
+        navigate(route); // Redirect to the specified route if logged in
+      }
+    } else {
+      navigate("/e-portal/login"); // Redirect to login page if not logged in
+    }
   };
 
   return (
     <div>
-        <div className="" style={{ position: 'absolute', left: '280px', top: '90px' }}>
-      <p className="text-3xl font-serif">Welcome to the E-Portal Website</p>
-      <div className="mr-3">
-        <main className="mt-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {cardData.slice(0, visibleCards).map((card, index) => (
+      <div style={{ position: "absolute", left: "280px", top: "90px" }}>
+        <p className="text-3xl font-serif">Welcome to the E-Portal Website</p>
+        <div className="mr-3">
+          <main className="mt-6 grid grid-cols-3 gap-4">
+            {/* Hardcoded Cards */}
+            {visibleCards >= 1 && (
               <Card
-                key={index}
-                Cardname={card.Cardname}
-                CardDetails={card.CardDetails}
-                CardButtonName={card.CardButtonName}
-
+                Cardname="Account"
+                CardDetails="View and manage your account"
+                CardButtonName="Go to account"
+                route="e-portal/UserAccount"
+                openInNewTab={true}
+                OnCardClick={() =>
+                  handleCardClick("e-portal/UserAccount", true)
+                }
               />
-            ))}
-          </div>
-          <div>
-           
-          </div>
+            )}
+            {visibleCards >= 2 && (
+              <Card
+                Cardname="Tax"
+                CardDetails="View Tax related Documents"
+                CardButtonName="View Reports"
+                route="/tax"
+                openInNewTab={true} // Example: set to true to open in a new tab
+                OnCardClick={() => handleCardClick("/tax", true)}
+              />
+            )}
+            {visibleCards >= 3 && (
+              <Card
+                Cardname="Attendance"
+                CardDetails="View Your Attendance"
+                CardButtonName="Check your Attendance"
+                route="/attendence"
+                openInNewTab={true}
+                OnCardClick={() => handleCardClick("/attendence", false)}
+              />
+            )}
+            {visibleCards >= 4 && (
+              <Card
+                Cardname="Review"
+                CardDetails="Review Your Records"
+                CardButtonName="Check the Records"
+                route="/review"
+                openInNewTab={true}
+                OnCardClick={() => handleCardClick("/review", true)}
+              />
+            )}
+            {visibleCards >= 5 && (
+              <Card
+                Cardname="Post"
+                CardDetails="Check the recent posts"
+                CardButtonName="See posts"
+                route="e-portal/posts"
+                openInNewTab={false}
+                OnCardClick={() => handleCardClick("e-portal/postData", true)}
+              />
+            )}
+            {visibleCards >= 6 && (
+              <Card
+                Cardname="Projects"
+                CardDetails="Check the project status"
+                CardButtonName="Check status"
+                route="/projects"
+                openInNewTab={true}
+                OnCardClick={() => handleCardClick("/projects", true)}
+              />
+            )}
+            {/* Additional Cards to show after clicking 'Read more' */}
+            {visibleCards >= 7 && (
+              <Card
+                Cardname="Hemanth"
+                CardDetails="View and manage your account"
+                CardButtonName="Go to account"
+                route="/account"
+                openInNewTab={false}
+                OnCardClick={() => handleCardClick("/account", false)}
+              />
+            )}
+          </main>
 
-          {visibleCards < cardData.length && (
+          {visibleCards < 7 && (
             <div className="mt-6 text-center">
-              <div onClick={showMoreCards}>
-              <a href="#" className="ml-[800px] font-medium text-blue-600 dark:text-blue-500 hover:underline">Read more</a>
-              </div>
+              <a
+                href="#"
+                onClick={showMoreCards}
+                className="ml-[800px] font-medium text-blue-600 dark:text-blue-500 hover:underline"
+              >
+                Read more
+              </a>
             </div>
           )}
-        </main>
+        </div>
       </div>
-    </div >
-    
-   
+      {/* <Posts /> */}
     </div>
   );
 };
