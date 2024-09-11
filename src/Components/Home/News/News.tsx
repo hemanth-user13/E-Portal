@@ -11,6 +11,7 @@ const Newsbody = styled.div`
 `;
 
 const DropdownSection = styled.div`
+width: 200px;
   margin-top: 10px;
   background-color: #f9f9f9;
   border-radius: 5px;
@@ -26,7 +27,7 @@ const DropdownButton = styled.button`
   border-radius: 5px;
   text-align: left;
   cursor: pointer;
-  margin-top: 5px;
+  /* margin-top: 5px; */
 
   &:hover {
     background: #cbd5e0;
@@ -161,67 +162,7 @@ const Activity = [
     id: 3,
     activityname: "Chess",
     numberofparticipants: 4,
-  },
-  {
-    id: 4,
-    activityname: "Football",
-    numberofparticipants: 22,
-  },
-  {
-    id: 5,
-    activityname: "Badminton",
-    numberofparticipants: 10,
-  },
-  {
-    id: 6,
-    activityname: "Cricket",
-    numberofparticipants: 24,
-  },
-  {
-    id: 7,
-    activityname: "Yoga",
-    numberofparticipants: 15,
-  },
-  {
-    id: 8,
-    activityname: "Volleyball",
-    numberofparticipants: 12,
-  },
-  {
-    id: 9,
-    activityname: "Swimming",
-    numberofparticipants: 8,
-  },
-  {
-    id: 10,
-    activityname: "Hiking",
-    numberofparticipants: 10,
-  },
-  {
-    id: 11,
-    activityname: "Cycling",
-    numberofparticipants: 20,
-  },
-  {
-    id: 12,
-    activityname: "Tennis",
-    numberofparticipants: 4,
-  },
-  {
-    id: 13,
-    activityname: "Running",
-    numberofparticipants: 30,
-  },
-  {
-    id: 14,
-    activityname: "Skiing",
-    numberofparticipants: 8,
-  },
-  {
-    id: 15,
-    activityname: "Dance",
-    numberofparticipants: 25,
-  },
+  }
 ];
 
 const LatestActivity = Activity.map((items, index) => (
@@ -232,7 +173,7 @@ const News = () => {
 
   return (
     <Newsbody>
-      <div className="w-full lg:h-[1120px] sm:w-64 h-full sm:h-[715px] bg-gradient-to-r from-slate-200 via-slate-300 to-slate-200 sm:rounded-r-lg shadow-lg absolute left-0 p-6 flex flex-col items-center justify-center sm:justify-start">
+      <div className="w-full lg:h-[1120px] sm:w-64 h-full sm:h-full bg-gradient-to-r from-slate-200 via-slate-300 to-slate-200 sm:rounded-r-lg shadow-lg absolute left-0 p-6 flex flex-col items-center justify-center sm:justify-start">
         <h3 className="text-3xl sm:text-2xl text-gray-800 font-bold mb-4">
           Latest News
         </h3>
