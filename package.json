@@ -11,8 +11,12 @@
     "server": "json-server --watch ./src/Data/User.json --port 8001"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@fingerprintjs/fingerprintjs": "^4.5.0",
     "@headlessui/react": "^2.1.6",
+    "@mui/icons-material": "^6.0.2",
+    "@mui/material": "^6.0.2",
     "@reduxjs/toolkit": "^2.2.7",
     "axios": "^1.7.7",
     "formik": "^2.4.6",

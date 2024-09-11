@@ -34,15 +34,15 @@ const LoginPage = () => {
         dispatch(setUser(user));
         navigate("/e-portal");
       } else {
-        alert("Invalid email or password");
+        Swal.fire({
+          title: "Error!",
+          text: "Invaild Credentials. Please try again.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
       }
     } catch (error) {
-      Swal.fire({
-        title: "Error!",
-        text: "Invaild Credentials. Please try again.",
-        icon: "error",
-        confirmButtonText: "OK",
-      });
+      console.log(error,"there is an error in the api call")
     }
   };
 

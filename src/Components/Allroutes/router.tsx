@@ -6,7 +6,10 @@ import Posts from "../Home/Categories/Posts/Posts";
 import PostForm from "../Home/Categories/Posts/PostForm";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+
+
 const router = () => {
+  
   return (
     <div>
       <BrowserRouter>

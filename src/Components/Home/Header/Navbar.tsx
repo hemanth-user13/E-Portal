@@ -1,5 +1,6 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
+
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
@@ -8,8 +9,11 @@ const Position = styled.div`
   left: -120px;
   top: 20px;
 `;
+ interface NavBarProps{
+  pageName:string
+ }
 
-const Navbar = () => {
+const Navbar:React.FC<NavBarProps>=({pageName}) => {
   // const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -69,10 +73,10 @@ const Navbar = () => {
               <Position>
                 <div className="flex flex-shrink-0 items-left">
                   <p className="text-white text-2xl font-serif mr-72">
-                    E-Portal
+                    E-Portal &nbsp;{pageName?pageName:""}
                   </p>
                   {username && (
-                    <p className="text-white ml-96">Welcome {username}</p>
+                    <p className="text-white ml-[600px]">Welcome {username}</p>
                   )}
                 </div>
               </Position>

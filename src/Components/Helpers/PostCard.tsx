@@ -1,18 +1,78 @@
 import React from 'react';
 import { PostProps } from '../Home/Categories/Posts/type';
+import styled from 'styled-components';
 
+// Styled-components for the card and its contents
+const Card = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+`;
 
+const PostInfo = styled.div`
+  flex: 1;
+  margin-right: 20px;
 
-const PostCard: React.FC<PostProps> = ({ postTitle, createdDate, description, firstName }) => {
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  p {
+    margin-bottom: 5px;
+    font-size: 0.875rem;
+  }
+
+  .author {
+    color: #6b7280; 
+  }
+
+  .description {
+    color: #374151; 
+    margin-top: 8px;
+  }
+
+  .date {
+    color: #9ca3af; 
+    margin-top: 10px;
+    font-size: 0.75rem;
+  }
+`;
+
+const PostImage = styled.img`
+  width: 230px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+`;
+
+const PostCard: React.FC<PostProps> = ({
+  postTitle,
+  createdDate,
+  description,
+  firstName,
+  files,
+}) => {
   return (
-    <div className="max-w-xs rounded overflow-hidden shadow-lg bg-white p-11">
-      <div className="mb-2">
-        <h3 className="text-xl font-semibold">{postTitle}</h3>
-        <p className="text-sm text-gray-500">By {firstName}</p>
-      </div>
-      <p className="text-sm text-gray-700">{description}</p>
-      <p className="text-xs text-gray-400 mt-2">{new Date(createdDate).toDateString()}</p>
-    </div>
+    <Card>
+      {/* Left side for post info */}
+      <PostInfo>
+        <h3>{postTitle}</h3>
+        <p className="author">By {firstName}</p>
+        <p className="description">{description}</p>
+        <p className="date">{new Date(createdDate).toDateString()}</p>
+      </PostInfo>
+
+      {/* Right side for image */}
+      <PostImage src={files} alt={description} />
+    </Card>
   );
 };
 

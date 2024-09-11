@@ -2,8 +2,14 @@ import axios from "axios"
 import { useEffect, useState } from "react";
 import { PostProps } from "./type";
 import PostCard from "../../../Helpers/PostCard";
+import { useParams } from "react-router-dom";
 
 const Posts = () => {
+  const {route}=useParams()
+  console.log("the route is ",route)
+
+
+  console.log("hello")
 
   const [data,setData]=useState<PostProps[]>([])
 
@@ -22,10 +28,10 @@ const Posts = () => {
     UserPostData()
   },[])
   return (
-    <div className="w-full h-full flex justify-center items-center mt-48">
-      <div className="w-full md:w-3/4 lg:w-2/3 bg-gray-300 p-4" style={{ height: '400px' }}>
+    <div className="px-5 w-full h-full flex justify-center items-center mt-64">
+      <div className="w-full md:w-3/4 lg:w-2/3 bg-gray-300 p-4 h-[625px]">
         <p className="text-xl md:text-2xl lg:text-3xl">Post section</p>
-        <div className="flex flex-row gap-4 mt-11">
+        <div className="flex flex-col gap-4 mt-11">
           {data.map((items,index)=>(
             <PostCard
             key={index}
@@ -33,6 +39,7 @@ const Posts = () => {
             createdDate={items.createdDate}
             description={items.description}
             firstName={items.firstName}
+            files={items.files}
             />
           ))}
         </div>
