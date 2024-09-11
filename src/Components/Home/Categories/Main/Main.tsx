@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
+import { useNavigate } from "react-router-dom"; 
 import Card from "../../../Helpers/Cards";
+
 
 const Main = () => {
   const [visibleCards, setVisibleCards] = useState(6);
@@ -11,26 +12,26 @@ const Main = () => {
   };
 
   const handleCardClick = (route: string, openInNewTab: boolean) => {
-    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true"; // Check login status from localStorage
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true"; 
 
     if (isLoggedIn) {
       if (openInNewTab) {
-        window.open(route, "_blank"); // Open in new tab
+        window.open(route, "_blank"); 
       } else {
-        navigate(route); // Redirect to the specified route if logged in
+        navigate(route); 
       }
     } else {
-      navigate("/e-portal/login"); // Redirect to login page if not logged in
+      navigate("/e-portal/login"); 
     }
   };
 
   return (
+   <>
     <div>
       <div style={{ position: "absolute", left: "280px", top: "90px" }}>
         <p className="text-3xl font-serif">Welcome to the E-Portal Website</p>
         <div className="mr-3">
           <main className="mt-6 grid grid-cols-3 gap-4">
-            {/* Hardcoded Cards */}
             {visibleCards >= 1 && (
               <Card
                 Cardname="Account"
@@ -49,7 +50,7 @@ const Main = () => {
                 CardDetails="View Tax related Documents"
                 CardButtonName="View Reports"
                 route="/tax"
-                openInNewTab={true} // Example: set to true to open in a new tab
+                openInNewTab={true} 
                 OnCardClick={() => handleCardClick("/tax", true)}
               />
             )}
@@ -93,7 +94,6 @@ const Main = () => {
                 OnCardClick={() => handleCardClick("/projects", true)}
               />
             )}
-            {/* Additional Cards to show after clicking 'Read more' */}
             {visibleCards >= 7 && (
               <Card
                 Cardname="Hemanth"
@@ -118,9 +118,11 @@ const Main = () => {
             </div>
           )}
         </div>
+      
       </div>
-      {/* <Posts /> */}
+     
     </div>
+   </>
   );
 };
 

@@ -4,6 +4,6 @@ export interface CardProps {
     CardButtonName: string;
     OnCardClick: () => void;
     route: string;
-    openInNewTab?: boolean; // Optional prop for new tab behavior
+    openInNewTab?: boolean; 
   }
   

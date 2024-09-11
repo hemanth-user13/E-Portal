@@ -15,7 +15,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit }) => {
     <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
       <div className="bg-white p-6 rounded-lg shadow-lg w-2/3 max-w-3xl">
         {" "}
-        {/* Adjusted width */}
         <h2 className="text-xl font-semibold mb-4">Add a New Post</h2>
         <Formik
           initialValues={{

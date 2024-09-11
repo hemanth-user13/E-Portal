@@ -1,10 +1,11 @@
-import React from "react";
+// import React from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setUser } from "../UserSlice";
+import Swal from "sweetalert2";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -22,24 +23,26 @@ const LoginPage = () => {
       const response = await axios.get("http://localhost:8001/userregister");
       const users = response.data;
 
-      // Find user matching the email and password
       const user = users.find(
         (user: { email: string; password: string }) =>
           user.email === values.email && user.password === values.password
       );
 
       if (user) {
-        // Save the user's first name and status in localStorage
         localStorage.setItem("firstName", user.firstName);
         localStorage.setItem("isLoggedIn", "true");
         dispatch(setUser(user));
-        navigate("/");
+        navigate("/e-portal");
       } else {
-        // Handle invalid credentials
         alert("Invalid email or password");
       }
     } catch (error) {
-      console.error("Error logging in:", error);
+      Swal.fire({
+        title: "Error!",
+        text: "Invaild Credentials. Please try again.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
     }
   };
 

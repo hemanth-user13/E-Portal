@@ -1,9 +1,14 @@
 import styled from "styled-components";
 
 const Newsbody = styled.div`
+
+
+
+
+
   @media screen and (min-width: 1500px) {
     width: 100% !important;
-    height: 190% !important;
+    height: 10% !important;
   }
 `;
 
@@ -205,7 +210,7 @@ const LatestActivity = Activity.map((items, index) => (
 const News = () => {
   return (
     <Newsbody>
-      <div className="w-full sm:w-64 h-full sm:h-[715px] bg-gradient-to-r from-slate-200 via-slate-300 to-slate-200 sm:rounded-r-lg shadow-lg absolute left-0 p-6 flex flex-col items-center justify-center sm:justify-start">
+      <div className="w-full lg:h-[1120px] sm:w-64 h-full sm:h-[715px] bg-gradient-to-r from-slate-200 via-slate-300 to-slate-200 sm:rounded-r-lg shadow-lg absolute left-0 p-6 flex flex-col items-center justify-center sm:justify-start">
         <h3 className="text-3xl sm:text-2xl text-gray-800 font-bold mb-4">
           Latest News
         </h3>

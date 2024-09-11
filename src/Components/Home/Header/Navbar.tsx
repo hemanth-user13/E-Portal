@@ -10,7 +10,7 @@ const Position = styled.div`
 `;
 
 const Navbar = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogout = () => {
