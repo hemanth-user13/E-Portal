@@ -58,6 +58,24 @@
       "description": "AI is the futuristic Technology",
       "firstName": "Bolgum",
       "userId": "96060d6b34752fceeee1c17cc898100c"
+    },
+    {
+      "id": "d0ef",
+      "postTitle": "Visu",
+      "files": " https://cdn.pixabay.com/photo/2014/06/03/19/38/test-361512_640.jpg",
+      "createdDate": "2024-09-11",
+      "description": "Testing the app",
+      "firstName": "vishawanath",
+      "userId": "96060d6b34752fceeee1c17cc898100c"
+    },
+    {
+      "id": "2172",
+      "postTitle": "Visu-2",
+      "files": "https://cdn.pixabay.com/photo/2014/06/03/19/38/test-361512_640.jpg",
+      "createdDate": "2024-09-11",
+      "description": "Test",
+      "firstName": "vishawanath",
+      "userId": "96060d6b34752fceeee1c17cc898100c"
     }
   ],
   "userprivatePost": [
@@ -69,6 +87,12 @@
     },
     {
       "id": "d548"
+    },
+    {
+      "id": "9fdd"
+    },
+    {
+      "id": "466a"
     }
   ]
 }

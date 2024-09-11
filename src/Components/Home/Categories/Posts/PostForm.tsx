@@ -3,7 +3,13 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import Navbar from "../../Header/Navbar";
 import Modal from "../../../Helpers/postModal";
+import styled from "styled-components";
 
+
+
+const PostPage=styled.div`
+  margin-top: 150px !important;
+`
 interface Post {
   id: number;
   files: string;
@@ -154,9 +160,11 @@ const PostForm: React.FC = () => {
   }, [userId]);
 
   return (
-    <div className="">
-      <Navbar pageName="Post Page" />
-      <div className="mx-24 my-11">
+   <>
+    <Navbar pageName="Post Page" />
+      
+     <PostPage>
+     <div className="mx-24 my-11">
         <h1 className="text-3xl font-semibold mb-6">Your Recent Posts</h1>
 
         <button
@@ -225,7 +233,8 @@ const PostForm: React.FC = () => {
           onSubmit={handlePostSubmit}
         />
       </div>
-    </div>
+     </PostPage>
+   </>
   );
 };
 

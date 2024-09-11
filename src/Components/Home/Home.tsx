@@ -4,37 +4,46 @@ import News from './News/News';
 import Main from './Categories/Main/Main';
 import Posts from './Categories/Posts/Posts';
 import styled from "styled-components";
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
+
+const ParentStyle = styled.div`
+  position: fixed;
+`
 
 const PostSection = styled.div`
   position: absolute;
   /* margin-left: 260px; */
+  /* margin: 0px 30px ; */
   height: 200px !important;
   top: 500px;
   bottom: 5px;
   width: 100%;
 `;
 
+const UserPage=styled.div`
+  margin-bottom: 60px;
+`
+
 const Home = () => {
   const UserLoginStatus = localStorage.getItem('isLoggedIn');
-  const navigate = useNavigate();
-  if (UserLoginStatus) {
-    navigate('./e-portal');
-  }
-
   console.log("the user status is", UserLoginStatus);
 
   return (
     <div>
-      <Navbar 
-      pageName='Dashboard'
+      <Navbar
+        pageName='Dashboard'
       />
-      <News />
+      <ParentStyle>
+        <News />
+      </ParentStyle>
+
       <div className='lg:ml-14'>
         <Main />
       </div>
-      {!UserLoginStatus && <LeftBar />}
+     <UserPage>
+     {!UserLoginStatus && <LeftBar />}
+     </UserPage>
       <PostSection>
         <Posts />
       </PostSection>
