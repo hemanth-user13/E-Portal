@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Swal from "sweetalert2"; // Import SweetAlert
+import Swal from "sweetalert2";
 import Navbar from "../../Header/Navbar";
 import Modal from "../../../Helpers/postModal";
 
@@ -15,21 +15,19 @@ interface Post {
 
 const PostForm: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [userPosts, setUserPosts] = useState<Post[]>([]); // State for storing user's posts
-  const userId = localStorage.getItem("user_id"); // Get the userId from localStorage
+  const [userPosts, setUserPosts] = useState<Post[]>([]);
+  const [sortOrder, setSortOrder] = useState("none");
+  const userId = localStorage.getItem("user_id");
   const userName = localStorage.getItem("firstName");
 
-  // Function to handle opening the modal
   const handleAddPostClick = () => {
     setIsModalOpen(true);
   };
 
-  // Function to handle closing the modal
   const handleModalClose = () => {
     setIsModalOpen(false);
   };
 
-  // Function to handle post submission
   const handlePostSubmit = async (values: {
     postTitle: string;
     createdDate: string;
@@ -51,7 +49,7 @@ const PostForm: React.FC = () => {
         icon: "success",
         confirmButtonText: "OK",
       });
-      fetchUserPosts(); // Re-fetch posts after publishing a new post
+      fetchUserPosts();
     } catch (error) {
       Swal.fire({
         title: "Error!",
@@ -62,23 +60,40 @@ const PostForm: React.FC = () => {
     }
   };
 
-  // Function to fetch all posts and filter by userId
   const fetchUserPosts = async () => {
     try {
-      const response = await axios.get("http://localhost:8001/userpost"); // Fetch all posts
+      const response = await axios.get("http://localhost:8001/userpost");
       const filteredPosts = response.data.filter(
         (post: Post) => post.firstName === userName
-      ); // Filter posts by userId
-      setUserPosts(filteredPosts); // Set filtered posts to state
+      );
+      setUserPosts(filteredPosts);
     } catch (error) {
       console.error("Failed to fetch user posts", error);
     }
   };
 
-  // Fetch user's posts when the component mounts
+  const sortPosts = (order: "asc" | "desc") => {
+    const sortedPosts = [...userPosts].sort((a, b) => {
+      const dateA = new Date(a.createdDate).getTime();
+      const dateB = new Date(b.createdDate).getTime();
+      return order === "asc" ? dateA - dateB : dateB - dateA;
+    });
+    setUserPosts(sortedPosts);
+  };
+
+  const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = event.target.value;
+    if (value === "AtoZ") {
+      sortPosts("asc");
+    } else if (value === "ZtoA") {
+      sortPosts("desc");
+    }
+    setSortOrder(value);
+  };
+
   useEffect(() => {
     if (userId) {
-      fetchUserPosts(); // Only fetch posts if userId exists in localStorage
+      fetchUserPosts();
     }
   }, [userId]);
 
@@ -94,7 +109,12 @@ const PostForm: React.FC = () => {
         Add Post
       </button>
 
-      {/* Display User's Posts */}
+      <select name="Filters" value={sortOrder} onChange={handleSortChange}>
+        <option value="none">Sort by Date</option>
+        <option value="AtoZ">A &rarr; Z</option>
+        <option value="ZtoA">Z &rarr; A</option>
+      </select>
+
       {userPosts.length > 0 ? (
         <div className="space-y-4">
           {userPosts.map((post) => (
@@ -109,7 +129,6 @@ const PostForm: React.FC = () => {
         <p>No posts available for this user.</p>
       )}
 
-      {/* Reusable Modal */}
       <Modal
         isOpen={isModalOpen}
         onClose={handleModalClose}

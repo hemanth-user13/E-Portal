@@ -12,6 +12,7 @@ const router = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Main />} />
+          <Route path="/e-portal" element={<Main/>}/>
           <Route path="e-portal/register" element={<Register />} />
           <Route path="e-portal/login" element={<LoginPage />} />
           <Route path="e-portal/UserAccount" element={<UserAccount />} />

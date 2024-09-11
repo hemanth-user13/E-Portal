@@ -26,7 +26,6 @@ const Register = () => {
       const response = await axios.post(REGISTERURL, values);
       console.log(response.data);
 
-      // Show success message
       Swal.fire({
         title: "Success!",
         text: "Registration completed successfully.",
@@ -34,12 +33,10 @@ const Register = () => {
         confirmButtonText: "OK",
       });
 
-      // Optionally reset the form
       resetForm();
     } catch (error) {
       console.error("Error submitting the form", error);
 
-      // Show error message
       Swal.fire({
         title: "Error!",
         text: "There was an error with your registration.",

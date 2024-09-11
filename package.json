@@ -12,9 +12,11 @@
   },
   "dependencies": {
     "@fingerprintjs/fingerprintjs": "^4.5.0",
+    "@headlessui/react": "^2.1.6",
     "@reduxjs/toolkit": "^2.2.7",
     "axios": "^1.7.7",
     "formik": "^2.4.6",
+    "heroicons": "^2.1.5",
     "json-server": "^1.0.0-beta.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
