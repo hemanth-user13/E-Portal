@@ -1,15 +1,41 @@
+// import React, { useState } from 'react';
 import styled from "styled-components";
+import Employeeicon from '../../../assets/noun-employee-5763079.png';
+import Developericon from '../../../assets/icons8-developer-64.png';
 
 const Newsbody = styled.div`
-
-
-
-
-
   @media screen and (min-width: 1500px) {
     width: 100% !important;
     height: 10% !important;
   }
+`;
+
+const DropdownSection = styled.div`
+  margin-top: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+const DropdownButton = styled.button`
+  display: block;
+  width: 100%;
+  background: #e2e8f0;
+  border: 1px solid #cbd5e0;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: left;
+  cursor: pointer;
+  margin-top: 5px;
+
+  &:hover {
+    background: #cbd5e0;
+  }
+`;
+
+const DropdownContent = styled.div`
+  padding: 10px;
+ 
 `;
 
 const employees = [
@@ -198,36 +224,48 @@ const Activity = [
   },
 ];
 
-const employeeCount = employees.length;
-console.log(employeeCount);
-
 const LatestActivity = Activity.map((items, index) => (
-  <div key={index}>
-    <p>{items.activityname}</p>
-  </div>
+  <p key={index}>{items.activityname}</p>
 ));
 
 const News = () => {
+
   return (
     <Newsbody>
       <div className="w-full lg:h-[1120px] sm:w-64 h-full sm:h-[715px] bg-gradient-to-r from-slate-200 via-slate-300 to-slate-200 sm:rounded-r-lg shadow-lg absolute left-0 p-6 flex flex-col items-center justify-center sm:justify-start">
         <h3 className="text-3xl sm:text-2xl text-gray-800 font-bold mb-4">
           Latest News
         </h3>
-        <p className="text-gray-700 text-lg sm:text-base text-center sm:absolute sm:top-24">
-          Employee Count<strong>&nbsp;&nbsp;{employeeCount}</strong>
-        </p>
-        <div className="mt-20 ml-8">
-          <p className="">
-            newly joined employees<strong>&nbsp;&nbsp;Test</strong>
+        <img src={Employeeicon} alt="Employee Icon" className="w-36 h-32 mr-2"/>
+        <div className="flex items-center">
+         
+          <p className="text-gray-700 text-lg sm:text-base text-center">
+            Employee Count<strong>&nbsp;&nbsp;{employees.length}</strong>
           </p>
-          <br></br>
-          <p className="">
-            Employee of the month<strong>&nbsp;&nbsp;Test</strong>
-          </p>
-          <br></br>
-          <p className="">Latest Weekly Fun Activity: {LatestActivity}</p>
         </div>
+
+        <DropdownSection>
+          <DropdownButton >
+            Newly Joined Employees
+          </DropdownButton>
+          <DropdownContent>
+            {employees.slice(0, 5).map((employee) => (
+              <div key={employee.id} className="flex items-center mb-2">
+                <img src={Developericon} alt="Developer Icon" className="w-8 h-8 mr-2"/>
+                <p>{employee.name} - {employee.designation}</p>
+              </div>
+            ))}
+          </DropdownContent>
+        </DropdownSection>
+
+        <DropdownSection className="mt-4">
+          <DropdownButton >
+            Latest Weekly Fun Activity
+          </DropdownButton>
+          <DropdownContent>
+            {LatestActivity}
+          </DropdownContent>
+        </DropdownSection>
       </div>
     </Newsbody>
   );

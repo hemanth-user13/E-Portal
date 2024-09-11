@@ -1,22 +1,21 @@
 import React from "react";
-import { CardProps } from "./type"; // Adjust the import path as needed
+import { CardProps } from "./type";
+// import { Icon } from "@mui/material";
 
 const Cards: React.FC<CardProps> = ({
-  Cardname,
-  CardDetails,
+  Cardicon,
   CardButtonName,
   OnCardClick,
-  route,
-  openInNewTab, // Add the new prop
 }) => {
   const handleClick = () => {
-    OnCardClick(); // Trigger the parent click handler
+    OnCardClick();
   };
 
   return (
-    <div className="w-64 h-50 bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out mx-auto flex flex-col justify-between">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-4">{Cardname}</h2>
-      <p className="text-gray-600 mb-6 flex-grow">{CardDetails}</p>
+    <div className="w-64 h-50 bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out mx-auto flex flex-col justify-between items-center">
+      <div className="mb-4">
+        {Cardicon}
+      </div>
       <div>
         <button
           onClick={handleClick}

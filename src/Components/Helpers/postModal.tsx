@@ -19,11 +19,13 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit }) => {
         <Formik
           initialValues={{
             postTitle: "",
+            files:"",
             createdDate: new Date().toISOString().split("T")[0],
             description: "",
           }}
           validationSchema={Yup.object({
             postTitle: Yup.string().required("Post title is required"),
+            files:Yup.string().required("URL is required"),
             createdDate: Yup.date().required("Created date is required"),
             description: Yup.string().required("Description is required"),
           })}
@@ -50,6 +52,22 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit }) => {
                   className="text-red-500 text-sm"
                 />
               </div>
+             <div>
+             <label htmlFor="file" className="block font-medium">
+                Enter img/video/audio Link
+              </label>
+              <Field 
+              id="files"
+              name="files"
+              type="text"
+              className="block w-full mt-2 border border-gray-300 rounded p-2"
+              />
+               <ErrorMessage
+                  name="files"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+             </div>
 
               <div className="mt-4">
                 <label htmlFor="createdDate" className="block font-medium">

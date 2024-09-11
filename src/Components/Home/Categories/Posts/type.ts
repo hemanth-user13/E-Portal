@@ -4,7 +4,7 @@ export interface PostProps{
     createdDate:string,
     description:string,
     firstName:string,
-    userId:string
-
+    userId:string,
+    files:string
 
 }

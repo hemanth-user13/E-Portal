@@ -1,9 +1,9 @@
+import { ReactNode } from "react";
+
 export interface CardProps {
-    Cardname: string;
-    CardDetails: string;
-    CardButtonName: string;
-    OnCardClick: () => void;
-    route: string;
-    openInNewTab?: boolean; 
-  }
-  
+  Cardicon: ReactNode; 
+  CardButtonName: string;
+  OnCardClick: () => void;
+  route?: string; 
+  openInNewTab?: boolean; 
+}
