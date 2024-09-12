@@ -12,7 +12,7 @@ const PostPage = styled.div`
   margin-top: 150px !important;
 `;
 
-const BackButtonStyle=styled.div`
+const BackButtonStyle = styled.div`
 position: absolute;
 top: 90px;
 left: 30px;
@@ -280,14 +280,46 @@ const PostForm: React.FC = () => {
       });
     }
   };
+
+  const handleDelete=()=>{
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to Delete?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Delete it!",
+      cancelButtonText: "No, cancel!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await axios.post(
+            "http://localhost:8001/userpostt"
+          );
+          console.log(response);
+
+          Swal.fire("Deleted!", "Your post has been deleted.", "success");
+          fetchUserPosts();
+        } catch (error) {
+          console.log("There is an error in the API", error);
+          Swal.fire(
+            "Error",
+            "There was an issue publishing the post.",
+            "error"
+          );
+        }
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire("Cancelled", "Your post was not published.", "error");
+      }
+    });
+  }
   return (
     <>
       <Navbar pageName="Post Page" />
-     
+
       <PostPage>
-      <BackButtonStyle>
-      <BackButton/>
-      </BackButtonStyle>
+        <BackButtonStyle>
+          <BackButton />
+        </BackButtonStyle>
         <div className="mx-24 my-11">
           <h1 className="text-3xl font-semibold mb-6">Your Recent Posts</h1>
 
@@ -325,6 +357,11 @@ const PostForm: React.FC = () => {
                     <p className="mt-2 text-sm md:text-base font-normal text-gray-700 dark:text-gray-400">
                       {post.description}
                     </p>
+                    {/* <button type="button"
+                      className="absolute bottom-2 right-44 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                      onClick={()=>handleDelete}
+                      >
+                      Delete</button> */}
                     <button
                       onClick={() => handleEditButton(post)}
                       className="absolute bottom-4 right-28 bg-blue-500 text-white px-4 py-2 rounded-lg"

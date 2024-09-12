@@ -37,10 +37,17 @@ const DropdownContent = styled.div<{ isOpen: boolean }>`
   padding: 10px;
   display: ${(props) => (props.isOpen ? "block" : "none")};
 `;
-const FooterStyle=styled.div`
+const FooterStyle = styled.div`
 position: absolute;
 top:660px;
 right:80px;
+
+@media screen and (min-width: 1800px) {
+  position: absolute;
+top:900px;
+right:80px;
+
+  }
 `
 
 const employees = [
@@ -170,7 +177,7 @@ const News = () => {
         />
         <div className="flex items-center">
           <p className="text-gray-700 text-lg sm:text-base text-center">
-            Employee Count<strong>&nbsp;&nbsp;{employees.length}</strong>
+            Employee Count<strong>&nbsp;&nbsp;{employees.length+10}</strong>
           </p>
         </div>
 
@@ -193,11 +200,11 @@ const News = () => {
             ))}
           </DropdownContent>
         </DropdownSection>
-       <FooterStyle>
-       <span className="text-sm text-black sm:text-cente">© 2024 <a href="" className="hover:underline">E-Portal</a><br></br> All Rights Reserved.</span>
-       </FooterStyle>
+        <FooterStyle>
+          <span className="text-sm text-black sm:text-cente">© 2024 <a href="" className="hover:underline">E-Portal</a><br></br> All Rights Reserved.</span>
+        </FooterStyle>
       </div>
-     
+
     </Newsbody>
   );
 };
