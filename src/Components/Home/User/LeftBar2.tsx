@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import Features from '../../Helpers/Features';
-import Leaveicon from '../../../assets/leave.png'; // Make sure this path is correct
+import Leaveicon from '../../../assets/leave.png'; 
+import PolicyIcon from '../../../assets/insurance.png';
+import PaySlip from '../../../assets/payslip.png';
+import Claim from '../../../assets/wallet.png'
 
 const LeftBar2 = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(true);
@@ -67,11 +70,23 @@ const LeftBar2 = () => {
                     name="Leave"
                 />
             </div>
+            <div className='absolute bottom-[700px] left-3'>
+                <Features
+                    name='Policy'
+                    icon={PolicyIcon}
+                />
+            </div>
+            <div className='absolute bottom-[700px] left-32'>
+                <Features
+                    name='Claims'
+                    icon={Claim}
+                />
+            </div>
 
             <div className='absolute bottom-[750px] left-32'>
                 <Features
                     name='PaySlips'
-                    icon="https://via.placeholder.com/50?text=PS"
+                    icon={PaySlip}
                 />
             </div>
         </div>

@@ -1,10 +1,8 @@
-// import necessary modules
 import React, { useState } from "react";
 import styled from "styled-components";
 import Employeeicon from "../../../assets/noun-employee-5763079.png";
 import Developericon from "../../../assets/icons8-developer-64.png";
 
-// styled components
 const Newsbody = styled.div`
   @media screen and (min-width: 1500px) {
     width: 100% !important;
@@ -39,8 +37,12 @@ const DropdownContent = styled.div<{ isOpen: boolean }>`
   padding: 10px;
   display: ${(props) => (props.isOpen ? "block" : "none")};
 `;
+const FooterStyle=styled.div`
+position: absolute;
+top:660px;
+right:80px;
+`
 
-// data
 const employees = [
   {
     id: 1,
@@ -149,37 +151,11 @@ const employees = [
   },
 ];
 
-// const Activity = [
-//   {
-//     id: 1,
-//     activityname: "Table Tennis",
-//     numberofparticipants: 20,
-//   },
-//   {
-//     id: 2,
-//     activityname: "Basketball",
-//     numberofparticipants: 12,
-//   },
-//   {
-//     id: 3,
-//     activityname: "Chess",
-//     numberofparticipants: 4,
-//   },
-// ];
 
-// const LatestActivity = Activity.map((items, index) => (
-//   <p key={index}>{items.activityname}</p>
-// ));
-
-// main component
 const News = () => {
-  // state management for dropdown visibility
   const [isEmployeesOpen, setIsEmployeesOpen] = useState(true);
-  // const [isActivityOpen, setIsActivityOpen] = useState(false);
 
-  // toggle functions
   const toggleEmployeesDropdown = () => setIsEmployeesOpen(!isEmployeesOpen);
-  // const toggleActivityDropdown = () => setIsActivityOpen(!isActivityOpen);
 
   return (
     <Newsbody>
@@ -198,7 +174,6 @@ const News = () => {
           </p>
         </div>
 
-        {/* Newly Joined Employees Dropdown */}
         <DropdownSection>
           <DropdownButton onClick={toggleEmployeesDropdown}>
             Newly Joined Employees
@@ -218,17 +193,11 @@ const News = () => {
             ))}
           </DropdownContent>
         </DropdownSection>
-
-        {/* Latest Weekly Fun Activity Dropdown */}
-        {/* <DropdownSection className="mt-4">
-          <DropdownButton onClick={toggleActivityDropdown}>
-            Latest Weekly Fun Activity
-          </DropdownButton>
-          <DropdownContent isOpen={isActivityOpen}>
-            {LatestActivity}
-          </DropdownContent>
-        </DropdownSection> */}
+       <FooterStyle>
+       <span className="text-sm text-black sm:text-cente">© 2024 <a href="" className="hover:underline">E-Portal</a><br></br> All Rights Reserved.</span>
+       </FooterStyle>
       </div>
+     
     </Newsbody>
   );
 };
