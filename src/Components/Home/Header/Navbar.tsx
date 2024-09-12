@@ -13,6 +13,12 @@ const FixedNavbar = styled.div`
 
 const NavBarTitle=styled.div`
   margin-left:-125px;
+
+  @media screen and (min-width: 1700px) {
+    margin-left:-320px;
+
+  }
+  
 `
 
 interface NavBarProps {

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactPlayer from 'react-player';
+import Close from '../../assets/cancel.png'
 
 interface MediaModalProps {
   isOpen: boolean;
@@ -13,6 +14,9 @@ const MediaModal: React.FC<MediaModalProps> = ({ isOpen, onClose, post }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75">
       <div className="bg-white p-8 rounded-lg max-w-3xl w-full">
+        <div className='ml-[679px] mb-[-35px] w-12' onClick={onClose}>
+        <img src={Close} alt=''/>
+        </div>
         <h2 className="text-2xl font-semibold mb-4">{post.postTitle}</h2>
         <div className="mb-6">
           {post.urlType === "image" && (
@@ -29,12 +33,12 @@ const MediaModal: React.FC<MediaModalProps> = ({ isOpen, onClose, post }) => {
           )}
         </div>
         <p>{post.description}</p>
-        <button
+        {/* <button
           className="mt-4 ml-72 bg-red-500 text-white px-4 py-2 rounded"
           onClick={onClose}
         >
           Close
-        </button>
+        </button> */}
       </div>
     </div>
   );
