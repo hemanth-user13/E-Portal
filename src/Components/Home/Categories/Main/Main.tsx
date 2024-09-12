@@ -38,7 +38,7 @@ const Main = () => {
       <div style={{ position: "absolute", left: "280px", top: "90px" }}>
         <p className="text-3xl font-serif">Welcome to the E-Portal Website</p>
         <div className="mr-3">
-          <main className="mt-6 grid grid-cols-3 gap-4">
+          <main className="mt-14 grid grid-cols-3 gap-4">
             {visibleCards >= 1 && (
               <Card
                 Cardicon={<ManageAccountsIcon />}
@@ -57,7 +57,7 @@ const Main = () => {
               <Card
                 Cardicon={<AssignmentIcon />}
                 CardButtonName="Check your Attendance"
-                OnCardClick={() => handleCardClick("/attendence", false)}
+                OnCardClick={() => handleCardClick("/attendence", true)}
               />
             )}
             {visibleCards >= 4 && (
@@ -85,14 +85,14 @@ const Main = () => {
               <Card
                 Cardicon={<DvrIcon />}
                 CardButtonName="Go to Records"
-                OnCardClick={() => handleCardClick("/account", false)}
+                OnCardClick={() => handleCardClick("/account", true)}
               />
             )}
             {visibleCards >= 8 && (
               <Card
                 Cardicon={<AccountTreeIcon />}
                 CardButtonName="Go to Projects"
-                OnCardClick={() => handleCardClick("/account", false)}
+                OnCardClick={() => handleCardClick("/account", true)}
               />
             )}
           </main>

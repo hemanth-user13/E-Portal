@@ -2,12 +2,21 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Navbar from "../../Header/Navbar";
-import Modal from "../../../Helpers/postModal";
 import styled from "styled-components";
+import ReactPlayer from "react-player";
+import Modal from "../../../Helpers/postModal";
+import BackButton from "../../../Helpers/BackButton";
+import EditModal from "../../../Helpers/EditModal";
 
 const PostPage = styled.div`
   margin-top: 150px !important;
 `;
+
+const BackButtonStyle=styled.div`
+position: absolute;
+top: 90px;
+left: 30px;
+`
 
 interface Post {
   id: number;
@@ -17,14 +26,55 @@ interface Post {
   description: string;
   userId: string;
   firstName: string;
-  urlType: "image" | "video" | "audio"; // Add URL type for media
+  urlType: "image" | "video" | "audio";
   URL: string;
 }
 
+interface MediaModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  post: Post | null;
+}
+
+const MediaModal: React.FC<MediaModalProps> = ({ isOpen, onClose, post }) => {
+  if (!isOpen || !post) return null;
+
+  return (
+    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75">
+      <div className="bg-white p-8 rounded-lg max-w-3xl w-full">
+        <h2 className="text-2xl font-semibold mb-4">{post.postTitle}</h2>
+        <div className="mb-6">
+          {post.urlType === "image" && (
+            <img src={post.url} alt={post.postTitle} className="w-full h-auto" />
+          )}
+          {post.urlType === "video" && (
+            <ReactPlayer url={post.url} controls width="100%" />
+          )}
+          {post.urlType === "audio" && (
+            <audio controls className="w-full">
+              <source src={post.url} type="audio/mpeg" />
+              Your browser does not support the audio element.
+            </audio>
+          )}
+        </div>
+        <p>{post.description}</p>
+        <button
+          className="mt-4 bg-red-500 text-white px-4 py-2 rounded"
+          onClick={onClose}
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  );
+};
+
 const PostForm: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [mediaModalOpen, setMediaModalOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const [editModalOpen, setEditModalOpen] = useState(false);
   const [userPosts, setUserPosts] = useState<Post[]>([]);
-  const [sortOrder, setSortOrder] = useState("none");
   const [draggedPostId, setDraggedPostId] = useState<number | null>(null);
   const [hoveredPostId, setHoveredPostId] = useState<number | null>(null);
   const userId = localStorage.getItem("user_id");
@@ -61,6 +111,7 @@ const PostForm: React.FC = () => {
         confirmButtonText: "OK",
       });
       fetchUserPosts();
+      handleModalClose();
     } catch (error) {
       Swal.fire({
         title: "Error!",
@@ -83,54 +134,14 @@ const PostForm: React.FC = () => {
     }
   };
 
-  const handleDragStart = (postId: number) => {
-    setDraggedPostId(postId);
+  const handleMediaClick = (post: Post) => {
+    setSelectedPost(post);
+    setMediaModalOpen(true);
   };
 
-  const handleDrop = (
-    event: React.DragEvent<HTMLDivElement>,
-    dropPostId: number
-  ) => {
-    event.preventDefault();
-
-    if (draggedPostId !== null) {
-      const draggedPostIndex = userPosts.findIndex(
-        (post) => post.id === draggedPostId
-      );
-      const dropPostIndex = userPosts.findIndex(
-        (post) => post.id === dropPostId
-      );
-
-      const updatedPosts = [...userPosts];
-      const [draggedPost] = updatedPosts.splice(draggedPostIndex, 1);
-      updatedPosts.splice(dropPostIndex, 0, draggedPost);
-
-      setUserPosts(updatedPosts);
-      setDraggedPostId(null);
-    }
-  };
-
-  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-  };
-
-  const sortPosts = (order: "asc" | "desc") => {
-    const sortedPosts = [...userPosts].sort((a, b) => {
-      const dateA = new Date(a.createdDate).getTime();
-      const dateB = new Date(b.createdDate).getTime();
-      return order === "asc" ? dateA - dateB : dateB - dateA;
-    });
-    setUserPosts(sortedPosts);
-  };
-
-  const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = event.target.value;
-    if (value === "AtoZ") {
-      sortPosts("asc");
-    } else if (value === "ZtoA") {
-      sortPosts("desc");
-    }
-    setSortOrder(value);
+  const handleMediaModalClose = () => {
+    setMediaModalOpen(false);
+    setSelectedPost(null);
   };
 
   const handlePublishButton = async () => {
@@ -171,56 +182,112 @@ const PostForm: React.FC = () => {
     }
   }, [userId]);
 
+  const handleDragStart = (postId: number) => {
+    setDraggedPostId(postId);
+  };
+
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>, dropPostId: number) => {
+    event.preventDefault();
+
+    if (draggedPostId !== null) {
+      const draggedPostIndex = userPosts.findIndex(post => post.id === draggedPostId);
+      const dropPostIndex = userPosts.findIndex(post => post.id === dropPostId);
+
+      const updatedPosts = [...userPosts];
+      const [draggedPost] = updatedPosts.splice(draggedPostIndex, 1);
+      updatedPosts.splice(dropPostIndex, 0, draggedPost);
+
+      setUserPosts(updatedPosts);
+      setDraggedPostId(null);
+    }
+  };
+
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
   const renderMedia = (post: Post) => {
     switch (post.urlType) {
       case "image":
         return (
           <img
-            src={post.URL}
+            src={post.url}
             alt={post.postTitle}
-            className={`object-cover w-full h-auto rounded-md ${
-              hoveredPostId === post.id ? "scale-125 transition-transform" : ""
-            }`}
+            className={`object-cover w-[350px] h-auto rounded-md cursor-pointer`}
             onMouseEnter={() => setHoveredPostId(post.id)}
             onMouseLeave={() => setHoveredPostId(null)}
+            onClick={() => handleMediaClick(post)}
           />
         );
       case "video":
         return (
-          <video
-            src={post.URL}
-            controls
-            className={`object-cover w-full h-auto rounded-md ${
-              hoveredPostId === post.id ? "scale-125 transition-transform" : ""
-            }`}
-            onMouseEnter={() => setHoveredPostId(post.id)}
-            onMouseLeave={() => setHoveredPostId(null)}
-          />
-        );
-      case "audio":
-        return (
-          <audio
-            controls
-            className={`w-full ${
-              hoveredPostId === post.id ? "scale-125 transition-transform" : ""
-            }`}
+          <div
+            onClick={() => handleMediaClick(post)}
+            className={`w-[320px] h-[200px] cursor-pointer`}
             onMouseEnter={() => setHoveredPostId(post.id)}
             onMouseLeave={() => setHoveredPostId(null)}
           >
-            <source src={post.URL} type="audio/mpeg" />
-            Your browser does not support the audio element.
-          </audio>
+            <ReactPlayer
+              url={post.url}
+              className="object-cover w-full h-full rounded-md"
+              width="100%"
+              height="100%"
+              controls
+            />
+          </div>
+        );
+
+      case "audio":
+        return (
+          <div onClick={() => handleMediaClick(post)}>
+            <audio
+              controls
+              className={`w-full cursor-pointer ${hoveredPostId === post.id ? "scale-125 transition-transform" : ""}`}
+              onMouseEnter={() => setHoveredPostId(post.id)}
+              onMouseLeave={() => setHoveredPostId(null)}
+            >
+              <source src={post.url} type="audio/mpeg" />
+              Your browser does not support the audio element.
+            </audio>
+          </div>
         );
       default:
         return null;
     }
   };
 
+  const handleEditButton = (post: Post) => {
+    setSelectedPost(post);
+    setEditModalOpen(true);
+  };
+
+  const handleSave = async (updatedPost: Post) => {
+    try {
+      await axios.put(`http://localhost:8001/userpost/${updatedPost.id}`, updatedPost);
+      console.log(updatedPost)
+      Swal.fire({
+        title: "Success!",
+        text: "Post updated successfully!",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
+      fetchUserPosts();
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to update the post. Please try again.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
+  };
   return (
     <>
       <Navbar pageName="Post Page" />
-
+     
       <PostPage>
+      <BackButtonStyle>
+      <BackButton/>
+      </BackButtonStyle>
         <div className="mx-24 my-11">
           <h1 className="text-3xl font-semibold mb-6">Your Recent Posts</h1>
 
@@ -230,41 +297,42 @@ const PostForm: React.FC = () => {
           >
             Add Post
           </button>
-
-          <select
-            name="Filters"
-            value={sortOrder}
-            onChange={handleSortChange}
-            className="mb-4 px-2 py-1 border rounded"
-          >
-            <option value="none">Sort by Date</option>
-            <option value="AtoZ">A &rarr; Z</option>
-            <option value="ZtoA">Z &rarr; A</option>
-          </select>
-
           {userPosts.length > 0 ? (
-            <div className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {userPosts.map((post) => (
                 <div
                   key={post.id}
-                  className="flex items-center border p-4 rounded shadow"
+                  className="relative max-w-xs md:max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
                   draggable
                   onDragStart={() => handleDragStart(post.id)}
                   onDragOver={handleDragOver}
                   onDrop={(event) => handleDrop(event, post.id)}
                 >
-                  <div className="flex-1 mr-4 w-[230px] h-auto">
-                    {renderMedia(post)}
-                  </div>
-
-                  <div className="w-1/3 mr-96">
-                    <h2 className="text-xl font-semibold">{post.postTitle}</h2>
-                    <p className="text-gray-600">Date: {post.createdDate}</p>
-                    <p>{post.description}</p>
-                  </div>
-                  <div className="ml-auto">
+                  <a href="#" className="block w-full h-auto">
+                    <div className="w-full h-48 md:h-60 lg:h-44 overflow-hidden">
+                      {renderMedia(post)}
+                    </div>
+                  </a>
+                  <div className="p-4 pb-16">
+                    <a href="#">
+                      <h5 className="text-lg md:text-xl lg:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                        {post.postTitle.toUpperCase()}
+                      </h5>
+                    </a>
+                    <p className="mt-2 text-sm md:text-base font-normal text-gray-700 dark:text-gray-400">
+                      Date: {post.createdDate}
+                    </p>
+                    <p className="mt-2 text-sm md:text-base font-normal text-gray-700 dark:text-gray-400">
+                      {post.description}
+                    </p>
                     <button
-                      className="bg-green-500 text-white px-4 py-2 rounded"
+                      onClick={() => handleEditButton(post)}
+                      className="absolute bottom-4 right-28 bg-blue-500 text-white px-4 py-2 rounded-lg"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="absolute bottom-4 right-4 px-4 py-2 text-sm font-medium text-center text-white bg-green-500 rounded-lg hover:bg-green-600"
                       onClick={handlePublishButton}
                     >
                       Publish
@@ -276,15 +344,22 @@ const PostForm: React.FC = () => {
           ) : (
             <p>No posts available.</p>
           )}
+
         </div>
-        {isModalOpen && (
-          <Modal
-            isOpen={isModalOpen}
-            onClose={handleModalClose}
-            onSubmit={handlePostSubmit}
-          />
-        )}
       </PostPage>
+
+      <Modal isOpen={isModalOpen} onClose={handleModalClose} onSubmit={handlePostSubmit} />
+      <EditModal
+        isOpen={editModalOpen}
+        onClose={() => setEditModalOpen(false)}
+        post={selectedPost}
+        onSave={handleSave}
+      />
+      <MediaModal
+        isOpen={mediaModalOpen}
+        onClose={handleMediaModalClose}
+        post={selectedPost}
+      />
     </>
   );
 };

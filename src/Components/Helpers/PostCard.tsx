@@ -1,8 +1,7 @@
 import React from 'react';
-import { PostProps } from '../Home/Categories/Posts/type';
+import ReactPlayer from 'react-player';
 import styled from 'styled-components';
 
-// Styled-components for the card and its contents
 const Card = styled.div`
   width: 100%;
   display: flex;
@@ -16,7 +15,7 @@ const Card = styled.div`
 
 const PostInfo = styled.div`
   flex: 1;
-  margin-right: 20px;
+  margin-left: 20px;
 
   h3 {
     font-size: 1.25rem;
@@ -46,32 +45,71 @@ const PostInfo = styled.div`
   }
 `;
 
-const PostImage = styled.img`
+const PostMedia = styled.div`
   width: 230px;
   height: auto;
-  object-fit: cover;
   border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
 `;
 
-const PostCard: React.FC<PostProps> = ({
+interface PostCardProps {
+  postTitle: string;
+  createdDate: string;
+  description: string;
+  firstName: string;
+  url: string;
+  urlType: string;
+  onMediaClick: () => void;
+}
+
+const PostCard: React.FC<PostCardProps> = ({
   postTitle,
   createdDate,
   description,
   firstName,
-  files,
+  url,
+  urlType,
+  onMediaClick,
 }) => {
+  const renderMedia = () => {
+    switch (urlType) {
+      case "image":
+        return <img src={url} alt={postTitle} className="object-cover w-full h-auto" onClick={onMediaClick} />;
+      case "video":
+        return (
+          <ReactPlayer
+            url={url}
+            className="object-cover w-full h-full"
+            width="100%"
+            height="100%"
+            controls
+            onClick={onMediaClick}
+          />
+        );
+      case "audio":
+        return (
+          <audio controls className="w-full" onClick={onMediaClick}>
+            <source src={url} type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </audio>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <Card>
-      {/* Left side for post info */}
+      <PostMedia onClick={onMediaClick}>
+        {renderMedia()}
+      </PostMedia>
       <PostInfo>
         <h3>{postTitle}</h3>
         <p className="author">By {firstName}</p>
         <p className="description">{description}</p>
         <p className="date">{new Date(createdDate).toDateString()}</p>
       </PostInfo>
-
-      {/* Right side for image */}
-      <PostImage src={files} alt={description} />
     </Card>
   );
 };

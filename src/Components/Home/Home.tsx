@@ -4,6 +4,8 @@ import News from './News/News';
 import Main from './Categories/Main/Main';
 import Posts from './Categories/Posts/Posts';
 import styled from "styled-components";
+import LeftBar2 from './User/LeftBar2';
+import { useEffect } from 'react';
 // import { useNavigate } from 'react-router-dom';
 
 
@@ -29,6 +31,12 @@ const Home = () => {
   const UserLoginStatus = localStorage.getItem('isLoggedIn');
   console.log("the user status is", UserLoginStatus);
 
+
+  /// back button logic
+  useEffect(() => {
+    sessionStorage.setItem('previousTab', window.location.href);
+  }, []); 
+
   return (
     <div>
       <Navbar
@@ -42,7 +50,7 @@ const Home = () => {
         <Main />
       </div>
      <UserPage>
-     {!UserLoginStatus && <LeftBar />}
+     {!UserLoginStatus ? <LeftBar />:<LeftBar2/>}
      </UserPage>
       <PostSection>
         <Posts />
