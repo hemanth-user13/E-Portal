@@ -1,49 +1,60 @@
-import axios from "axios"
 import { useEffect, useState } from "react";
-import { PostProps } from "./type";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, AppDispatch } from "@reduxjs/toolkit/query";
+import { fetchUserpostData } from "./PostSlice";
 import PostCard from "../../../Helpers/PostCard";
-import { useParams } from "react-router-dom";
+import MediaModal from "../../../Helpers/MediaModal";
 
 const Posts = () => {
-  const {route}=useParams()
-  console.log("the route is ",route)
+  const dispatch = useDispatch<AppDispatch>();
+  const { data: posts, loading, error } = useSelector((state: RootState) => state.posts);
 
+  const [mediaModalOpen, setMediaModalOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
 
-  console.log("hello")
+  useEffect(() => {
+    dispatch(fetchUserpostData());
+  }, [dispatch]);
 
-  const [data,setData]=useState<PostProps[]>([])
+  const handleMediaClick = (post: Post) => {
+    setSelectedPost(post);
+    setMediaModalOpen(true);
+  };
 
-  const USERPOSTURL="http://localhost:8001/userpost"
-  const UserPostData=async()=>{
-  try {
-    const response=await axios.get(USERPOSTURL);
-    console.log(response.data)
-    setData(response.data)
-  } catch (error) {
-    console.log(error,"there is an error in the api")
-    
-  }
-  }
-  useEffect(()=>{
-    UserPostData()
-  },[])
+  const handleMediaModalClose = () => {
+    setMediaModalOpen(false);
+    setSelectedPost(null);
+  };
+
   return (
-    <div className="px-5 w-full h-full flex justify-center items-center mt-64 ">
-      <div className="w-full md:w-3/4 lg:w-2/3 bg-gray-300 p-4 h-[625px]">
+    <div className="px-5 w-full flex justify-center items-center mt-64">
+      <div className="w-full md:w-3/4 lg:w-2/3 bg-gray-300 p-4">
         <p className="text-xl md:text-2xl lg:text-3xl">Post section</p>
+        {loading && <p>Loading...</p>}
+        {error && <p>Error: {error}</p>}
         <div className="flex flex-col gap-4 mt-11">
-          {data.map((items,index)=>(
+          {posts.map((post) => (
             <PostCard
-            key={index}
-            postTitle={items.postTitle}
-            createdDate={items.createdDate}
-            description={items.description}
-            firstName={items.firstName}
-            files={items.files}
+              key={post.id}
+              postTitle={post.postTitle}
+              createdDate={post.createdDate}
+              description={post.description}
+              firstName={post.firstName}
+              url={post.url}
+              urlType={post.urlType}
+              onMediaClick={() => handleMediaClick(post)}
             />
           ))}
         </div>
       </div>
+
+      {mediaModalOpen && (
+        <MediaModal
+          isOpen={mediaModalOpen}
+          onClose={handleMediaModalClose}
+          post={selectedPost}
+        />
+      )}
     </div>
   );
 };

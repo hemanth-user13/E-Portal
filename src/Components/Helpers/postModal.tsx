@@ -20,7 +20,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
+    <div className="fixed inset-0 mt-14 bg-gray-500 bg-opacity-75 flex items-center justify-center">
       <div className="bg-white p-6 rounded-lg shadow-lg w-2/3 max-w-3xl">
         <h2 className="text-xl font-semibold mb-4">Add a New Post</h2>
         <Formik
@@ -29,7 +29,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit }) => {
             createdDate: new Date().toISOString().split("T")[0],
             description: "",
             url: "",
-            urlType: "image", // Default to 'image'
+            urlType: "image", 
           }}
           validationSchema={Yup.object({
             postTitle: Yup.string().required("Post title is required"),
@@ -44,7 +44,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit }) => {
         >
           {({ values, setFieldValue }) => (
             <Form>
-              {/* Post Title Field */}
               <div>
                 <label htmlFor="postTitle" className="block font-medium">
                   Post Title
@@ -62,7 +61,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit }) => {
                 />
               </div>
 
-              {/* Media Type Selection */}
               <div className="mt-4">
                 <label htmlFor="urlType" className="block font-medium">
                   Media Type
@@ -81,7 +79,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit }) => {
                 </Field>
               </div>
 
-              {/* Conditional URL Input */}
               <div className="mt-4">
                 <label htmlFor="url" className="block font-medium">
                   Enter{" "}
@@ -102,7 +99,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit }) => {
                 />
               </div>
 
-              {/* Created Date Field */}
               <div className="mt-4">
                 <label htmlFor="createdDate" className="block font-medium">
                   Created Date
@@ -120,7 +116,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit }) => {
                 />
               </div>
 
-              {/* Description Field */}
               <div className="mt-4">
                 <label htmlFor="description" className="block font-medium">
                   Description
@@ -139,8 +134,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit }) => {
                 />
               </div>
 
-              {/* Action Buttons */}
-              <div className="mt-6 flex justify-end">
+              <div className="mt-6 flex justify-center">
                 <button
                   type="button"
                   onClick={onClose}
@@ -152,7 +146,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit }) => {
                   type="submit"
                   className="bg-blue-500 text-white px-4 py-2 rounded"
                 >
-                  Publish
+                  Submit
                 </button>
               </div>
             </Form>

@@ -149,37 +149,37 @@ const employees = [
   },
 ];
 
-const Activity = [
-  {
-    id: 1,
-    activityname: "Table Tennis",
-    numberofparticipants: 20,
-  },
-  {
-    id: 2,
-    activityname: "Basketball",
-    numberofparticipants: 12,
-  },
-  {
-    id: 3,
-    activityname: "Chess",
-    numberofparticipants: 4,
-  },
-];
+// const Activity = [
+//   {
+//     id: 1,
+//     activityname: "Table Tennis",
+//     numberofparticipants: 20,
+//   },
+//   {
+//     id: 2,
+//     activityname: "Basketball",
+//     numberofparticipants: 12,
+//   },
+//   {
+//     id: 3,
+//     activityname: "Chess",
+//     numberofparticipants: 4,
+//   },
+// ];
 
-const LatestActivity = Activity.map((items, index) => (
-  <p key={index}>{items.activityname}</p>
-));
+// const LatestActivity = Activity.map((items, index) => (
+//   <p key={index}>{items.activityname}</p>
+// ));
 
 // main component
 const News = () => {
   // state management for dropdown visibility
-  const [isEmployeesOpen, setIsEmployeesOpen] = useState(false);
-  const [isActivityOpen, setIsActivityOpen] = useState(false);
+  const [isEmployeesOpen, setIsEmployeesOpen] = useState(true);
+  // const [isActivityOpen, setIsActivityOpen] = useState(false);
 
   // toggle functions
   const toggleEmployeesDropdown = () => setIsEmployeesOpen(!isEmployeesOpen);
-  const toggleActivityDropdown = () => setIsActivityOpen(!isActivityOpen);
+  // const toggleActivityDropdown = () => setIsActivityOpen(!isActivityOpen);
 
   return (
     <Newsbody>
@@ -220,14 +220,14 @@ const News = () => {
         </DropdownSection>
 
         {/* Latest Weekly Fun Activity Dropdown */}
-        <DropdownSection className="mt-4">
+        {/* <DropdownSection className="mt-4">
           <DropdownButton onClick={toggleActivityDropdown}>
             Latest Weekly Fun Activity
           </DropdownButton>
           <DropdownContent isOpen={isActivityOpen}>
             {LatestActivity}
           </DropdownContent>
-        </DropdownSection>
+        </DropdownSection> */}
       </div>
     </Newsbody>
   );

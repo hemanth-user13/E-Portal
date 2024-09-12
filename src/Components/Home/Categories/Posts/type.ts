@@ -5,6 +5,8 @@ export interface PostProps{
     description:string,
     firstName:string,
     userId:string,
-    files:string
+    files:string,
+    url:string,
+    urlType:string
 
 }
