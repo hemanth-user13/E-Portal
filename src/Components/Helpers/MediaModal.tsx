@@ -30,7 +30,7 @@ const MediaModal: React.FC<MediaModalProps> = ({ isOpen, onClose, post }) => {
         </div>
         <p>{post.description}</p>
         <button
-          className="mt-4 bg-red-500 text-white px-4 py-2 rounded"
+          className="mt-4 ml-72 bg-red-500 text-white px-4 py-2 rounded"
           onClick={onClose}
         >
           Close
