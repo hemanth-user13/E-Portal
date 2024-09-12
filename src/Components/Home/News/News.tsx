@@ -1,8 +1,10 @@
-// import React, { useState } from 'react';
+// import necessary modules
+import React, { useState } from "react";
 import styled from "styled-components";
-import Employeeicon from '../../../assets/noun-employee-5763079.png';
-import Developericon from '../../../assets/icons8-developer-64.png';
+import Employeeicon from "../../../assets/noun-employee-5763079.png";
+import Developericon from "../../../assets/icons8-developer-64.png";
 
+// styled components
 const Newsbody = styled.div`
   @media screen and (min-width: 1500px) {
     width: 100% !important;
@@ -11,7 +13,7 @@ const Newsbody = styled.div`
 `;
 
 const DropdownSection = styled.div`
-width: 200px;
+  width: 200px;
   margin-top: 10px;
   background-color: #f9f9f9;
   border-radius: 5px;
@@ -27,18 +29,18 @@ const DropdownButton = styled.button`
   border-radius: 5px;
   text-align: left;
   cursor: pointer;
-  /* margin-top: 5px; */
 
   &:hover {
     background: #cbd5e0;
   }
 `;
 
-const DropdownContent = styled.div`
+const DropdownContent = styled.div<{ isOpen: boolean }>`
   padding: 10px;
- 
+  display: ${(props) => (props.isOpen ? "block" : "none")};
 `;
 
+// data
 const employees = [
   {
     id: 1,
@@ -162,14 +164,22 @@ const Activity = [
     id: 3,
     activityname: "Chess",
     numberofparticipants: 4,
-  }
+  },
 ];
 
 const LatestActivity = Activity.map((items, index) => (
   <p key={index}>{items.activityname}</p>
 ));
 
+// main component
 const News = () => {
+  // state management for dropdown visibility
+  const [isEmployeesOpen, setIsEmployeesOpen] = useState(false);
+  const [isActivityOpen, setIsActivityOpen] = useState(false);
+
+  // toggle functions
+  const toggleEmployeesDropdown = () => setIsEmployeesOpen(!isEmployeesOpen);
+  const toggleActivityDropdown = () => setIsActivityOpen(!isActivityOpen);
 
   return (
     <Newsbody>
@@ -177,33 +187,44 @@ const News = () => {
         <h3 className="text-3xl sm:text-2xl text-gray-800 font-bold mb-4">
           Latest News
         </h3>
-        <img src={Employeeicon} alt="Employee Icon" className="w-36 h-32 mr-2"/>
+        <img
+          src={Employeeicon}
+          alt="Employee Icon"
+          className="w-36 h-32 mr-2"
+        />
         <div className="flex items-center">
-         
           <p className="text-gray-700 text-lg sm:text-base text-center">
             Employee Count<strong>&nbsp;&nbsp;{employees.length}</strong>
           </p>
         </div>
 
+        {/* Newly Joined Employees Dropdown */}
         <DropdownSection>
-          <DropdownButton >
+          <DropdownButton onClick={toggleEmployeesDropdown}>
             Newly Joined Employees
           </DropdownButton>
-          <DropdownContent>
+          <DropdownContent isOpen={isEmployeesOpen}>
             {employees.slice(0, 5).map((employee) => (
               <div key={employee.id} className="flex items-center mb-2">
-                <img src={Developericon} alt="Developer Icon" className="w-8 h-8 mr-2"/>
-                <p>{employee.name} - {employee.designation}</p>
+                <img
+                  src={Developericon}
+                  alt="Developer Icon"
+                  className="w-8 h-8 mr-2"
+                />
+                <p>
+                  {employee.name} - {employee.designation}
+                </p>
               </div>
             ))}
           </DropdownContent>
         </DropdownSection>
 
+        {/* Latest Weekly Fun Activity Dropdown */}
         <DropdownSection className="mt-4">
-          <DropdownButton >
+          <DropdownButton onClick={toggleActivityDropdown}>
             Latest Weekly Fun Activity
           </DropdownButton>
-          <DropdownContent>
+          <DropdownContent isOpen={isActivityOpen}>
             {LatestActivity}
           </DropdownContent>
         </DropdownSection>
