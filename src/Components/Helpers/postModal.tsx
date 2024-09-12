@@ -8,34 +8,43 @@ interface ModalProps {
   onSubmit: (values: any) => void;
 }
 
+interface FormValues {
+  postTitle: string;
+  createdDate: string;
+  description: string;
+  url: string;
+  urlType: string;
+}
+
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit }) => {
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
       <div className="bg-white p-6 rounded-lg shadow-lg w-2/3 max-w-3xl">
-        {" "}
         <h2 className="text-xl font-semibold mb-4">Add a New Post</h2>
         <Formik
           initialValues={{
             postTitle: "",
-            files:"",
             createdDate: new Date().toISOString().split("T")[0],
             description: "",
+            url: "",
+            urlType: "image", // Default to 'image'
           }}
           validationSchema={Yup.object({
             postTitle: Yup.string().required("Post title is required"),
-            files:Yup.string().required("URL is required"),
             createdDate: Yup.date().required("Created date is required"),
             description: Yup.string().required("Description is required"),
+            url: Yup.string().required("URL is required"),
           })}
-          onSubmit={(values) => {
+          onSubmit={(values: FormValues) => {
             onSubmit(values);
             onClose();
           }}
         >
-          {() => (
+          {({ values, setFieldValue }) => (
             <Form>
+              {/* Post Title Field */}
               <div>
                 <label htmlFor="postTitle" className="block font-medium">
                   Post Title
@@ -52,23 +61,48 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit }) => {
                   className="text-red-500 text-sm"
                 />
               </div>
-             <div>
-             <label htmlFor="file" className="block font-medium">
-                Enter img/video/audio Link
-              </label>
-              <Field 
-              id="files"
-              name="files"
-              type="text"
-              className="block w-full mt-2 border border-gray-300 rounded p-2"
-              />
-               <ErrorMessage
-                  name="files"
+
+              {/* Media Type Selection */}
+              <div className="mt-4">
+                <label htmlFor="urlType" className="block font-medium">
+                  Media Type
+                </label>
+                <Field
+                  as="select"
+                  id="urlType"
+                  name="urlType"
+                  className="block w-full mt-2 border border-gray-300 rounded p-2"
+                  value={values.urlType} // Bind value to Formik
+                  onChange={(e) => setFieldValue("urlType", e.target.value)} // Update Formik value
+                >
+                  <option value="image">Image</option>
+                  <option value="video">Video</option>
+                  <option value="audio">Audio</option>
+                </Field>
+              </div>
+
+              {/* Conditional URL Input */}
+              <div className="mt-4">
+                <label htmlFor="url" className="block font-medium">
+                  Enter{" "}
+                  {values.urlType.charAt(0).toUpperCase() +
+                    values.urlType.slice(1)}{" "}
+                  URL
+                </label>
+                <Field
+                  id="url"
+                  name="url"
+                  type="text"
+                  className="block w-full mt-2 border border-gray-300 rounded p-2"
+                />
+                <ErrorMessage
+                  name="url"
                   component="div"
                   className="text-red-500 text-sm"
                 />
-             </div>
+              </div>
 
+              {/* Created Date Field */}
               <div className="mt-4">
                 <label htmlFor="createdDate" className="block font-medium">
                   Created Date
@@ -86,6 +120,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit }) => {
                 />
               </div>
 
+              {/* Description Field */}
               <div className="mt-4">
                 <label htmlFor="description" className="block font-medium">
                   Description
@@ -104,6 +139,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit }) => {
                 />
               </div>
 
+              {/* Action Buttons */}
               <div className="mt-6 flex justify-end">
                 <button
                   type="button"
