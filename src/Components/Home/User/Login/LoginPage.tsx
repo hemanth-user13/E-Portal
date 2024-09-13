@@ -19,8 +19,9 @@ const LoginPage = () => {
   });
 
   const handleSubmit = async (values: { email: string; password: string }) => {
+    const REGISETRURL=import.meta.env.VITE_API_REGISTER
     try {
-      const response = await axios.get("http://localhost:8001/userregister");
+      const response = await axios.get(REGISETRURL);
       const users = response.data;
 
       const user = users.find(

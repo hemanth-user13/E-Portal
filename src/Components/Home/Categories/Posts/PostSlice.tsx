@@ -2,7 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios"
 import { PostProps } from "./type";
 
-const USERPOSTURL="http://localhost:8001/userpost";
+
+const USERPOSTURL=import.meta.env.VITE_API_USERPOST;
 
 export const fetchUserpostData=createAsyncThunk("Users/UserPosts",async()=>{
     const response =await axios.get<PostProps[]>(USERPOSTURL)
