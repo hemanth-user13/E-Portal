@@ -30,6 +30,9 @@ const LoginPage = () => {
 
       if (user) {
         localStorage.setItem("firstName", user.firstName);
+        localStorage.setItem("lastName",user.lastName);
+        localStorage.setItem("email",user.email);
+        localStorage.setItem("mobile",user.mobile)
         localStorage.setItem("isLoggedIn", "true");
         dispatch(setUser(user));
         navigate("/e-portal");

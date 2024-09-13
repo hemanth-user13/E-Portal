@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import Features from '../../Helpers/Features';
 import Leaveicon from '../../../assets/leave.png'; 
 import PolicyIcon from '../../../assets/insurance.png';
@@ -82,7 +82,6 @@ const LeftBar2 = () => {
                     icon={Claim}
                 />
             </div>
-
             <div className='absolute bottom-[750px] left-32'>
                 <Features
                     name='PaySlips'
