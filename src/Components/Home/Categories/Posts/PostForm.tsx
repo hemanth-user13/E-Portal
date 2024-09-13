@@ -12,7 +12,7 @@ const PostPage = styled.div`
   margin-top: 150px !important;
 `;
 
-const BackButtonStyle = styled.div`
+export const BackButtonStyle = styled.div`
 position: absolute;
 top: 90px;
 left: 30px;
@@ -238,10 +238,10 @@ const PostForm: React.FC = () => {
 
       case "audio":
         return (
-          <div onClick={() => handleMediaClick(post)}>
+          <div className="w-72 mx-3 mt-28" onClick={() => handleMediaClick(post)}>
             <audio
               controls
-              className={`w-full cursor-pointer ${hoveredPostId === post.id ? "scale-125 transition-transform" : ""}`}
+              className={`w-full cursor-pointer ${hoveredPostId === post.id}`}
               onMouseEnter={() => setHoveredPostId(post.id)}
               onMouseLeave={() => setHoveredPostId(null)}
             >
