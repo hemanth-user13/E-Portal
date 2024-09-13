@@ -108,7 +108,7 @@ const UserAccount = () => {
             <div className='absolute right-24 top-[340px] '>
               <div className='my-6'>
                 <p className='text-gray-600'>Work History</p>
-                <p className='text-black'>Twitch, Google, Apple</p>
+                <p className='text-black'>ABC, DEF,GHI</p>
               </div>
               <div className='my-6'>
                 <p className='text-gray-600'>Languages</p>

@@ -17,6 +17,20 @@ position: absolute;
 top: 90px;
 left: 30px;
 `
+const FileStyle=styled.div`
+@media screen and (min-width: 1700px) {
+  width: 120%;
+  height: 90%;
+  }
+`
+
+
+const LargeScreenImageStyle=styled.div`
+  @media screen and (min-width: 1700px) {
+  width: full;
+  height: 90%;
+  }
+`
 
 interface Post {
   id: number;
@@ -68,6 +82,8 @@ const MediaModal: React.FC<MediaModalProps> = ({ isOpen, onClose, post }) => {
     </div>
   );
 };
+const USERPOST=import.meta.env.VITE_API_USERPOST
+const PRIVATEPOST=import.meta.env.VITE_API_PRIVATEPOST
 
 const PostForm: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -101,9 +117,9 @@ const PostForm: React.FC = () => {
       firstName,
       userId,
     };
-
+   
     try {
-      await axios.post("http://localhost:8001/userpost", postData);
+      await axios.post(USERPOST, postData);
       Swal.fire({
         title: "Success!",
         text: "Post published successfully!",
@@ -124,7 +140,7 @@ const PostForm: React.FC = () => {
 
   const fetchUserPosts = async () => {
     try {
-      const response = await axios.get("http://localhost:8001/userpost");
+      const response = await axios.get(USERPOST);
       const filteredPosts = response.data.filter(
         (post: Post) => post.firstName === userName
       );
@@ -156,7 +172,7 @@ const PostForm: React.FC = () => {
       if (result.isConfirmed) {
         try {
           const response = await axios.post(
-            "http://localhost:8001/userprivatePost"
+            PRIVATEPOST
           );
           console.log(response);
 
@@ -209,7 +225,8 @@ const PostForm: React.FC = () => {
     switch (post.urlType) {
       case "image":
         return (
-          <img
+          <LargeScreenImageStyle>
+            <img
             src={post.url}
             alt={post.postTitle}
             className={`object-cover w-[350px] h-auto rounded-md cursor-pointer`}
@@ -217,6 +234,7 @@ const PostForm: React.FC = () => {
             onMouseLeave={() => setHoveredPostId(null)}
             onClick={() => handleMediaClick(post)}
           />
+          </LargeScreenImageStyle>
         );
       case "video":
         return (
@@ -226,13 +244,15 @@ const PostForm: React.FC = () => {
             onMouseEnter={() => setHoveredPostId(post.id)}
             onMouseLeave={() => setHoveredPostId(null)}
           >
-            <ReactPlayer
+           <FileStyle>
+           <ReactPlayer
               url={post.url}
               className="object-cover w-full h-full rounded-md"
               width="100%"
               height="100%"
               controls
             />
+           </FileStyle>
           </div>
         );
 
@@ -293,7 +313,7 @@ const PostForm: React.FC = () => {
       if (result.isConfirmed) {
         try {
           const response = await axios.post(
-            "http://localhost:8001/userpostt"
+            USERPOST
           );
           console.log(response);
 

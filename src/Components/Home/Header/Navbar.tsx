@@ -15,6 +15,7 @@ import { MdOutlinePolicy } from "react-icons/md";
 import { IoIosSettings } from "react-icons/io";
 import { LuBaggageClaim } from "react-icons/lu";
 import { SlCalender } from "react-icons/sl";
+import { Link } from "react-router-dom";
 
 const FixedNavbar = styled.div`
   position: fixed;
@@ -215,10 +216,12 @@ const Navbar: React.FC<NavBarProps> = ({ pageName }) => {
         <div className="w-[350px] h-[300px] absolute top-16 right-4 bg-white shadow-md rounded-md p-6">
           <div className="grid grid-cols-3 gap-7">
             <AppIconsStyle>
+              <Link to="e-portal/UserAccount">
               <div className="flex flex-col items-center">
                 <RiAccountCircleFill />
                 <span>Account</span>
               </div>
+              </Link>
             </AppIconsStyle>
             <AppIconsStyle>
               <div className="flex flex-col items-center">
@@ -233,10 +236,12 @@ const Navbar: React.FC<NavBarProps> = ({ pageName }) => {
               </div>
             </AppIconsStyle>
             <AppIconsStyle>
-              <div className="flex flex-col items-center">
+             <Link to="e-portal/postData">
+             <div className="flex flex-col items-center">
                 <IoShareSocialOutline />
                 <span>Posts</span>
               </div>
+             </Link>
             </AppIconsStyle>
             <AppIconsStyle>
               <div className="flex flex-col items-center">
