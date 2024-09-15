@@ -52,16 +52,6 @@
       "userId": "cc1ccbbee13d4b8f715a4b228c4a222b"
     },
     {
-      "id": "66a6",
-      "postTitle": "PSPK",
-      "createdDate": "2024-09-13",
-      "description": "PANJA TELUGU movie",
-      "url": "https://youtu.be/uC8mlNIp7GQ?si=QoyhgdkfGKNfYHwI",
-      "urlType": "video",
-      "firstName": "Bolgum",
-      "userId": "c53f57e91bab85967e22e13422aabec4"
-    },
-    {
       "id": "29de",
       "postTitle": "Data analytics",
       "createdDate": "2024-09-13",
@@ -93,6 +83,9 @@
     },
     {
       "id": "88dc"
+    },
+    {
+      "id": "776a"
     }
   ]
 }
