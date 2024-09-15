@@ -19,9 +19,9 @@ const LoginPage = () => {
   });
 
   const handleSubmit = async (values: { email: string; password: string }) => {
-    const REGISETRURL=import.meta.env.VITE_API_REGISTER
+    // const REGISETRURL=import.meta.env.VITE_API_REGISTER
     try {
-      const response = await axios.get(REGISETRURL);
+      const response = await axios.get("http://localhost:8001/userregister ");
       const users = response.data;
 
       const user = users.find(
@@ -31,9 +31,9 @@ const LoginPage = () => {
 
       if (user) {
         localStorage.setItem("firstName", user.firstName);
-        localStorage.setItem("lastName",user.lastName);
-        localStorage.setItem("email",user.email);
-        localStorage.setItem("mobile",user.mobile)
+        localStorage.setItem("lastName", user.lastName);
+        localStorage.setItem("email", user.email);
+        localStorage.setItem("mobile", user.mobile);
         localStorage.setItem("isLoggedIn", "true");
         dispatch(setUser(user));
         navigate("/e-portal");
@@ -46,7 +46,7 @@ const LoginPage = () => {
         });
       }
     } catch (error) {
-      console.log(error,"there is an error in the api call")
+      console.log(error, "there is an error in the api call");
     }
   };
 

@@ -13,24 +13,23 @@ const PostPage = styled.div`
 `;
 
 export const BackButtonStyle = styled.div`
-position: absolute;
-top: 90px;
-left: 30px;
-`
-const FileStyle=styled.div`
-@media screen and (min-width: 1700px) {
-  width: 120%;
-  height: 90%;
-  }
-`
-
-
-const LargeScreenImageStyle=styled.div`
+  position: absolute;
+  top: 90px;
+  left: 30px;
+`;
+const FileStyle = styled.div`
   @media screen and (min-width: 1700px) {
-  width: full;
-  height: 90%;
+    width: 120%;
+    height: 90%;
   }
-`
+`;
+
+const LargeScreenImageStyle = styled.div`
+  @media screen and (min-width: 1700px) {
+    width: full;
+    height: 90%;
+  }
+`;
 
 interface Post {
   id: number;
@@ -59,7 +58,11 @@ const MediaModal: React.FC<MediaModalProps> = ({ isOpen, onClose, post }) => {
         <h2 className="text-2xl font-semibold mb-4">{post.postTitle}</h2>
         <div className="mb-6">
           {post.urlType === "image" && (
-            <img src={post.url} alt={post.postTitle} className="w-full h-auto" />
+            <img
+              src={post.url}
+              alt={post.postTitle}
+              className="w-full h-auto"
+            />
           )}
           {post.urlType === "video" && (
             <ReactPlayer url={post.url} controls width="100%" />
@@ -82,8 +85,8 @@ const MediaModal: React.FC<MediaModalProps> = ({ isOpen, onClose, post }) => {
     </div>
   );
 };
-const USERPOST=import.meta.env.VITE_API_USERPOST
-const PRIVATEPOST=import.meta.env.VITE_API_PRIVATEPOST
+const USERPOST = "http://localhost:8001/userpost";
+const PRIVATEPOST = "http://localhost:8001/userprivatePost ";
 
 const PostForm: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -117,7 +120,7 @@ const PostForm: React.FC = () => {
       firstName,
       userId,
     };
-   
+
     try {
       await axios.post(USERPOST, postData);
       Swal.fire({
@@ -171,9 +174,7 @@ const PostForm: React.FC = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await axios.post(
-            PRIVATEPOST
-          );
+          const response = await axios.post(PRIVATEPOST);
           console.log(response);
 
           Swal.fire("Published!", "Your post has been published.", "success");
@@ -202,12 +203,19 @@ const PostForm: React.FC = () => {
     setDraggedPostId(postId);
   };
 
-  const handleDrop = (event: React.DragEvent<HTMLDivElement>, dropPostId: number) => {
+  const handleDrop = (
+    event: React.DragEvent<HTMLDivElement>,
+    dropPostId: number
+  ) => {
     event.preventDefault();
 
     if (draggedPostId !== null) {
-      const draggedPostIndex = userPosts.findIndex(post => post.id === draggedPostId);
-      const dropPostIndex = userPosts.findIndex(post => post.id === dropPostId);
+      const draggedPostIndex = userPosts.findIndex(
+        (post) => post.id === draggedPostId
+      );
+      const dropPostIndex = userPosts.findIndex(
+        (post) => post.id === dropPostId
+      );
 
       const updatedPosts = [...userPosts];
       const [draggedPost] = updatedPosts.splice(draggedPostIndex, 1);
@@ -227,13 +235,13 @@ const PostForm: React.FC = () => {
         return (
           <LargeScreenImageStyle>
             <img
-            src={post.url}
-            alt={post.postTitle}
-            className={`object-cover w-[350px] h-auto rounded-md cursor-pointer`}
-            onMouseEnter={() => setHoveredPostId(post.id)}
-            onMouseLeave={() => setHoveredPostId(null)}
-            onClick={() => handleMediaClick(post)}
-          />
+              src={post.url}
+              alt={post.postTitle}
+              className={`object-cover w-[350px] h-auto rounded-md cursor-pointer`}
+              onMouseEnter={() => setHoveredPostId(post.id)}
+              onMouseLeave={() => setHoveredPostId(null)}
+              onClick={() => handleMediaClick(post)}
+            />
           </LargeScreenImageStyle>
         );
       case "video":
@@ -244,21 +252,24 @@ const PostForm: React.FC = () => {
             onMouseEnter={() => setHoveredPostId(post.id)}
             onMouseLeave={() => setHoveredPostId(null)}
           >
-           <FileStyle>
-           <ReactPlayer
-              url={post.url}
-              className="object-cover w-full h-full rounded-md"
-              width="100%"
-              height="100%"
-              controls
-            />
-           </FileStyle>
+            <FileStyle>
+              <ReactPlayer
+                url={post.url}
+                className="object-cover w-full h-full rounded-md"
+                width="100%"
+                height="100%"
+                controls
+              />
+            </FileStyle>
           </div>
         );
 
       case "audio":
         return (
-          <div className="w-72 mx-3 mt-28" onClick={() => handleMediaClick(post)}>
+          <div
+            className="w-72 mx-3 mt-28"
+            onClick={() => handleMediaClick(post)}
+          >
             <audio
               controls
               className={`w-full cursor-pointer ${hoveredPostId === post.id}`}
@@ -282,8 +293,11 @@ const PostForm: React.FC = () => {
 
   const handleSave = async (updatedPost: Post) => {
     try {
-      await axios.put(`http://localhost:8001/userpost/${updatedPost.id}`, updatedPost);
-      console.log(updatedPost)
+      await axios.put(
+        `http://localhost:8001/userpost/${updatedPost.id}`,
+        updatedPost
+      );
+      console.log(updatedPost);
       Swal.fire({
         title: "Success!",
         text: "Post updated successfully!",
@@ -300,38 +314,30 @@ const PostForm: React.FC = () => {
       });
     }
   };
-
-  const handleDelete=()=>{
+  const handleDelete = (postId: number) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "Do you want to Delete?",
+      text: "Do you want to delete this post?",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Yes, Delete it!",
+      confirmButtonText: "Yes, delete it!",
       cancelButtonText: "No, cancel!",
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await axios.post(
-            USERPOST
-          );
-          console.log(response);
-
+          await axios.delete(`${USERPOST}/${postId}`);
           Swal.fire("Deleted!", "Your post has been deleted.", "success");
-          fetchUserPosts();
+          fetchUserPosts(); // Refresh the list after deletion
         } catch (error) {
           console.log("There is an error in the API", error);
-          Swal.fire(
-            "Error",
-            "There was an issue publishing the post.",
-            "error"
-          );
+          Swal.fire("Error", "There was an issue deleting the post.", "error");
         }
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire("Cancelled", "Your post was not published.", "error");
+        Swal.fire("Cancelled", "Your post was not deleted.", "error");
       }
     });
-  }
+  };
+
   return (
     <>
       <Navbar pageName="Post Page" />
@@ -377,11 +383,13 @@ const PostForm: React.FC = () => {
                     <p className="mt-2 text-sm md:text-base font-normal text-gray-700 dark:text-gray-400">
                       {post.description}
                     </p>
-                    {/* <button type="button"
+                    <button
+                      type="button"
                       className="absolute bottom-2 right-44 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                      onClick={()=>handleDelete}
-                      >
-                      Delete</button> */}
+                      onClick={() => handleDelete(post.id)}
+                    >
+                      Delete
+                    </button>
                     <button
                       onClick={() => handleEditButton(post)}
                       className="absolute bottom-4 right-28 bg-blue-500 text-white px-4 py-2 rounded-lg"
@@ -401,11 +409,14 @@ const PostForm: React.FC = () => {
           ) : (
             <p>No posts available.</p>
           )}
-
         </div>
       </PostPage>
 
-      <Modal isOpen={isModalOpen} onClose={handleModalClose} onSubmit={handlePostSubmit} />
+      <Modal
+        isOpen={isModalOpen}
+        onClose={handleModalClose}
+        onSubmit={handlePostSubmit}
+      />
       <EditModal
         isOpen={editModalOpen}
         onClose={() => setEditModalOpen(false)}
